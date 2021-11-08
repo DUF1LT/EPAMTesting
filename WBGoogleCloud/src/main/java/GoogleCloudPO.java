@@ -1,20 +1,15 @@
-package pageobject_model;
-
-import jdk.jfr.Timespan;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 
-import java.security.Key;
 import java.time.Duration;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 
-public class GoogleCloudMainPO extends AbstractPage {
+public class GoogleCloudPO extends AbstractPO
+{
 
     private Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
             .withTimeout(Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
@@ -26,13 +21,13 @@ public class GoogleCloudMainPO extends AbstractPage {
     private WebElement searchInput;
 
     @Override
-    public GoogleCloudMainPO openPage() {
+    public GoogleCloudPO openPage() {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         driver.get(HOME_PAGE);
         return this;
     }
 
-    public GoogleCloudMainPO enterTermToSearchInputAndFind(String Term)
+    public GoogleCloudPO enterTermToSearchInputAndFind(String Term)
     {
         searchInput.click();
         searchInput.sendKeys(Term);
@@ -40,7 +35,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO openTermReferenceAtFound(String Term)
+    public GoogleCloudPO openTermReferenceAtFound(String Term)
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -54,26 +49,26 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO switchToFrame()
+    public GoogleCloudPO switchToFrame()
     {
         driver.get("https://cloudpricingcalculator.appspot.com");
         return this;
     }
 
-    public GoogleCloudMainPO setVMType(String type)
+    public GoogleCloudPO setVMType(String type)
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
             {
-                return driver.findElement(By.xpath("//*[contains(@title,'" + type + "')]"));
+                return driver.findElement(By.xpath("//*[contains(text(),'" + type + "')]"));
             }
         });
-        WebElement computeEngine = driver.findElement(By.xpath("//*[contains(@title,'" + type + "')]"));
+        WebElement computeEngine = driver.findElement(By.xpath("//*[contains(text(),'" + type + "')]"));
         computeEngine.click();
         return this;
     }
 
-    public GoogleCloudMainPO setNumbersOfInstances(int numbers)
+    public GoogleCloudPO setNumbersOfInstances(int numbers)
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -87,7 +82,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO setFreeOS()
+    public GoogleCloudPO setFreeOS()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -103,7 +98,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO setRegularMachineClass()
+    public GoogleCloudPO setRegularMachineClass()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -120,7 +115,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO setE2S8MachineType()
+    public GoogleCloudPO setE2S8MachineType()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -144,7 +139,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO set1NOfNodes()
+    public GoogleCloudPO set1NOfNodes()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -160,7 +155,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO set1TeslaV100GPU()
+    public GoogleCloudPO set1TeslaV100GPU()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -215,7 +210,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO set2x375SSD()
+    public GoogleCloudPO set2x375SSD()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -240,7 +235,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO setLADatacenterLocation()
+    public GoogleCloudPO setLADatacenterLocation()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver) {
@@ -264,7 +259,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO set1yearCommittedUsage()
+    public GoogleCloudPO set1yearCommittedUsage()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver) {
@@ -288,7 +283,7 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO pressAddToEstimate()
+    public GoogleCloudPO pressAddToEstimate()
     {
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
@@ -303,7 +298,56 @@ public class GoogleCloudMainPO extends AbstractPage {
         return this;
     }
 
-    public GoogleCloudMainPO(WebDriver driver) {
+    public GoogleCloudPO pressEmailEstimate()
+    {
+        wait.until(new Function<WebDriver, Object>() {
+            public WebElement apply(WebDriver driver) {
+                return driver.findElement(By.id("email_quote"));
+            }
+        });
+
+        WebElement emailButton = driver.findElement(By.id("email_quote"));
+        emailButton.click();
+
+        return this;
+    }
+
+    public GoogleCloudPO sendEstimateToEmail(String email)
+    {
+        wait.until(new Function<WebDriver, Object>() {
+            public WebElement apply(WebDriver driver) {
+                return driver.findElement(By.id("input_461"));
+            }
+        });
+
+        WebElement emailField = driver.findElement(By.id("input_461"));
+        emailField.click();
+        emailField.sendKeys(email);
+
+        wait.until(new Function<WebDriver, Object>() {
+            public WebElement apply(WebDriver driver) {
+                return driver.findElement(By.xpath("//button[@aria-label = 'Send Email']"));
+            }
+        });
+
+        WebElement sendButton = driver.findElement(By.xpath("//button[@aria-label = 'Send Email']"));
+        WebElement cancelButton = driver.findElement(By.xpath("//button[@aria-label = 'Cancel']"));
+
+        sendButton.click();
+        cancelButton.click();
+
+
+        return this;
+    }
+
+    public String getEstimatePrice()
+    {
+        WebElement estimatePrice = driver.findElement(By.xpath("/html/body/md-content/md-card/div/md-card-content[2]/md-card/md-card-content/div/div/div/h2/b"));
+
+        return estimatePrice.getText().split("\\s+")[4];
+    }
+
+    public GoogleCloudPO(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
