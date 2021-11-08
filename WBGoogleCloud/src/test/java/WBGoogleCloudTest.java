@@ -12,7 +12,7 @@ public class WBGoogleCloudTest {
     public void TotalEstimatedCostEqualsEmailEstimatedCost()
     {
         System.setProperty("webdriver.chrome.driver", "chromedriver");
-        WebDriver driver = new ChromeDriver()
+        WebDriver driver = new ChromeDriver();
         WebDriver yopdriver = new ChromeDriver();
 
         GoogleCloudPO gcPO = new GoogleCloudPO(driver);
