@@ -10,6 +10,7 @@ public class WBGoogleCloudTest {
     @Test
     public void TotalEstimatedCostEqualsEmailEstimatedCost()
     {
+        System.setProperty("webdriver.chrome.driver", "../../../chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         WebDriver yopdriver = new ChromeDriver();
 
