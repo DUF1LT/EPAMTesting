@@ -5,7 +5,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-@RunWith(JUnit4.class)
 public class WBGoogleCloudTest {
 
     @Test
