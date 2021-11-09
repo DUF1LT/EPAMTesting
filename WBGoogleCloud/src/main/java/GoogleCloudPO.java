@@ -279,6 +279,8 @@ public class GoogleCloudPO extends AbstractPO
             }
         });
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
         WebElement committedusage = driver.findElement(By.id("select_value_label_119"));
         committedusage.click();
 
@@ -288,6 +290,8 @@ public class GoogleCloudPO extends AbstractPO
                 return driver.findElement(By.id("select_option_139"));
             }
         });
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         WebElement committedusage1year = driver.findElement(By.id("select_option_139"));
         committedusage1year.click();
@@ -304,6 +308,8 @@ public class GoogleCloudPO extends AbstractPO
             }
         });
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
         WebElement addToEstimate = driver.findElement(By.xpath("//button[contains(@aria-label, 'Add to Estimate')]"));
         addToEstimate.click();
 
@@ -317,6 +323,8 @@ public class GoogleCloudPO extends AbstractPO
                 return driver.findElement(By.id("email_quote"));
             }
         });
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         WebElement emailButton = driver.findElement(By.id("email_quote"));
         emailButton.click();
@@ -354,6 +362,8 @@ public class GoogleCloudPO extends AbstractPO
 
     public String getEstimatePrice()
     {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
         WebElement estimatePrice = driver.findElement(By.xpath("/html/body/md-content/md-card/div/md-card-content[2]/md-card/md-card-content/div/div/div/h2/b"));
 
         return estimatePrice.getText().split("\\s+")[4];

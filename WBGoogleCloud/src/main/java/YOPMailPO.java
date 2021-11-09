@@ -78,6 +78,8 @@ public class YOPMailPO extends AbstractPO
         WebElement refresh = driver.findElement(By.id("refresh"));
         refresh.click();
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
         driver.switchTo().frame(driver.findElement(By.id("ifmail")));
 
         wait.until(new Function<WebDriver, Object>() {
