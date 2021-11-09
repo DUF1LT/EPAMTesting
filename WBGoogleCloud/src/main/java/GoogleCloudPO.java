@@ -164,7 +164,7 @@ public class GoogleCloudPO extends AbstractPO
         nofnodes.sendKeys(String.valueOf(1));
 
         return this;
-    }
+    }   
 
     public GoogleCloudPO set1TeslaV100GPU()
     {
@@ -174,6 +174,8 @@ public class GoogleCloudPO extends AbstractPO
                 return driver.findElement(By.xpath("//md-checkbox[contains(@aria-label, 'Add GPUs')]"));
             }
         });
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         WebElement gpusCheckbox = driver.findElement(By.xpath("//md-checkbox[contains(@aria-label, 'Add GPUs')]"));
         gpusCheckbox.click();
@@ -185,6 +187,8 @@ public class GoogleCloudPO extends AbstractPO
             }
         });
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
         WebElement nofGpus = driver.findElement(By.id("select_411"));
         nofGpus.click();
 
@@ -194,6 +198,8 @@ public class GoogleCloudPO extends AbstractPO
                 return driver.findElement(By.id("select_option_418"));
             }
         });
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         WebElement nofGpus4 = driver.findElement(By.id("select_option_418"));
         nofGpus4.click();
@@ -205,6 +211,8 @@ public class GoogleCloudPO extends AbstractPO
             }
         });
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
         WebElement gpuType = driver.findElement(By.id("select_413"));
         gpuType.click();
 
@@ -214,6 +222,8 @@ public class GoogleCloudPO extends AbstractPO
                 return driver.findElement(By.id("select_option_421"));
             }
         });
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         WebElement gpuTypeV100 = driver.findElement(By.id("select_option_421"));
         gpuTypeV100.click();
@@ -229,6 +239,7 @@ public class GoogleCloudPO extends AbstractPO
                 return driver.findElement(By.id("select_value_label_117"));
             }
         });
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         WebElement localssd = driver.findElement(By.id("select_value_label_117"));
         localssd.click();
@@ -239,6 +250,8 @@ public class GoogleCloudPO extends AbstractPO
                 return driver.findElement(By.id("select_option_132"));
             }
         });
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         WebElement localssd2x375 = driver.findElement(By.id("select_option_132"));
         localssd2x375.click();
@@ -253,6 +266,8 @@ public class GoogleCloudPO extends AbstractPO
                 return driver.findElement(By.id("select_value_label_118"));
             }
         });
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
 
         WebElement datacenter = driver.findElement(By.id("select_value_label_118"));
         datacenter.click();
