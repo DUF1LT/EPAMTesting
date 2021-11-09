@@ -1,5 +1,6 @@
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,7 +12,9 @@ public class WBGoogleCloudTest {
     @Test
     public void TotalEstimatedCostEqualsEmailEstimatedCost()
     {
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        WebDriver driver = new ChromeDriver(options);
         WebDriver yopdriver = new ChromeDriver();
 
         GoogleCloudPO gcPO = new GoogleCloudPO(driver);
