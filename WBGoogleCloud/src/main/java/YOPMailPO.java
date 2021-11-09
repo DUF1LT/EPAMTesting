@@ -58,7 +58,7 @@ public class YOPMailPO extends AbstractPO
             }
         });
 
-        WebElement checkEmail = driver.findElement(By.xpath("//button//span[contains(text(), 'Проверить почту')]"));
+        WebElement checkEmail = driver.findElement(By.xpath("/html/body/div/div[2]/main/div/div[2]/div/div/div[2]/button[2]"));
         checkEmail.click();
 
         return this;
