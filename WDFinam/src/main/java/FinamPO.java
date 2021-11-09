@@ -28,7 +28,7 @@ public class FinamPO {
     public FinamPO loginToFinam(String login, String password)
     {
         WaitForXpath("//*[@id=\"login-dialog-EDOX_STOP_LIST\"]/div[3]/a");
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         WebElement otherLoginMethods = driver.findElement(xpath("//*[@id=\"login-dialog-EDOX_STOP_LIST\"]/div[3]/a"));
         otherLoginMethods.click();
 
@@ -53,7 +53,7 @@ public class FinamPO {
 
         WebElement loginButton = driver.findElement(xpath("//*[@id=\"txauth-widget-login-form\"]/button[1]"));
         loginButton.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
         return this;
     }
