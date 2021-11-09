@@ -17,18 +17,27 @@ public class GoogleCloudPO extends AbstractPO
 
     private final String HOME_PAGE = "https://cloud.google.com/";
 
-    @FindBy(xpath = "/html/body/section/devsite-header/div/div[1]/div/div/div[2]/devsite-search/form/div[1]/div/input")
     private WebElement searchInput;
 
     @Override
     public GoogleCloudPO openPage() {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         driver.get(HOME_PAGE);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
         return this;
     }
 
     public GoogleCloudPO enterTermToSearchInputAndFind(String Term)
     {
+        wait.until(new Function<WebDriver, Object>() {
+            public WebElement apply(WebDriver driver)
+            {
+                return driver.findElement(By.xpath("/html/body/section/devsite-header/div/div[1]/div/div/div[2]/devsite-search/form/div[1]/div/input"));
+            }
+        });
+
+        searchInput = driver.findElement(By.xpath("/html/body/section/devsite-header/div/div[1]/div/div/div[2]/devsite-search/form/div[1]/div/input"));
+
         searchInput.click();
         searchInput.sendKeys(Term);
         searchInput.sendKeys(Keys.ENTER);
@@ -37,6 +46,8 @@ public class GoogleCloudPO extends AbstractPO
 
     public GoogleCloudPO openTermReferenceAtFound(String Term)
     {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
             {

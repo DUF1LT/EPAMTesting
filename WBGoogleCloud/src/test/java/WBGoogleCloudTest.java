@@ -12,9 +12,7 @@ public class WBGoogleCloudTest {
     @Test
     public void TotalEstimatedCostEqualsEmailEstimatedCost()
     {
-        ChromeOptions options = new ChromeOptions();
-        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        WebDriver driver = new ChromeDriver(options);
+        WebDriver driver = new ChromeDriver();
         WebDriver yopdriver = new ChromeDriver();
 
         GoogleCloudPO gcPO = new GoogleCloudPO(driver);
