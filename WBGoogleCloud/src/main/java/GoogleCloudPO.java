@@ -22,7 +22,7 @@ public class GoogleCloudPO extends AbstractPO
     @Override
     public GoogleCloudPO openPage() {
         driver.get(HOME_PAGE);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
         return this;
     }
@@ -257,6 +257,7 @@ public class GoogleCloudPO extends AbstractPO
         WebElement datacenter = driver.findElement(By.id("select_value_label_118"));
         datacenter.click();
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         wait.until(new Function<WebDriver, Object>() {
             public WebElement apply(WebDriver driver)
             {
