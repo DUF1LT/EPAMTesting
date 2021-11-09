@@ -20,7 +20,7 @@ public class FinamPO {
     public FinamPO openPage()
     {
         driver.get(HOME_PAGE);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(6));
 
         return this;
     }
@@ -28,7 +28,7 @@ public class FinamPO {
     public FinamPO loginToFinam(String login, String password)
     {
         WaitForXpath("//*[@id=\"login-dialog-EDOX_STOP_LIST\"]/div[3]/a");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(6));
         WebElement otherLoginMethods = driver.findElement(xpath("//*[@id=\"login-dialog-EDOX_STOP_LIST\"]/div[3]/a"));
         otherLoginMethods.click();
 
