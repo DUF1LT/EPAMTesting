@@ -164,7 +164,7 @@ public class GoogleCloudPO extends AbstractPO
         nofnodes.sendKeys(String.valueOf(1));
 
         return this;
-    }   
+    }
 
     public GoogleCloudPO set1TeslaV100GPU()
     {

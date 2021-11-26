@@ -2,111 +2,99 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.NoSuchElementException;
-import java.util.function.Function;
+import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.By.xpath;
 
-public class FinamPO extends BasePO {
-    private final String HOME_PAGE = "https://trading.finam.ru/";
-    protected WebDriver driver;
-    private Wait<WebDriver> wait;
+public class FinamHomePO extends BasePO {
 
-    public FinamPO openPage()
-    {
-        driver.get(HOME_PAGE);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(6));
-
-        return this;
+    protected FinamHomePO(WebDriver driver) {
+        super(driver);
     }
 
+    @FindBy(id = "markets-tab-button")
+    private WebElement marketsElement;
 
+    @FindBy(id = "market-group-dropdown")
+    private WebElement marketsGroupDropdown;
 
-    public FinamPO buyCompanyNSales(String company, int n){
-        WaitForId("markets-tab-button");
-        WebElement markets = driver.findElement(By.id("markets-tab-button"));
-        markets.click();
+    @FindBy(xpath = "//li[@value ='E2']")
+    private WebElement salesAndFondGroup;
 
-        WaitForId("market-group-dropdown");
-        WebElement groupDropdown = driver.findElement(By.id("market-group-dropdown"));
-        groupDropdown.click();
+    @FindBy(id = "order-button-open-form")
+    private WebElement requestButton;
 
-        WaitForXpath("/html/body/div[5]/div[2]/ul/li[3]");
-        WebElement salesAndFondGroup = driver.findElement(xpath("/html/body/div[5]/div[2]/ul/li[@value = 'E2']"));
+    @FindBy(name = "quantity")
+    private WebElement salesAmountInput;
+
+    @FindBy(id = "order-form-submit")
+    private WebElement orderButton;
+
+    @FindBy(id = "order-confirm-submit")
+    private WebElement submitButton;
+
+    @FindBy(id = "order-form-close")
+    private WebElement closeSubmitButton;
+
+    public FinamHomePO buyCompanyNSales(String company, int n){
+
+        waitForElementToBeClickable(driver, marketsElement);
+        marketsElement.click();
+
+        waitForElementToBeClickable(driver, marketsGroupDropdown);
+        marketsGroupDropdown.click();
+
+        waitForElementToBeClickable(driver, salesAndFondGroup);
         salesAndFondGroup.click();
 
-        WaitForXpath("//*[@id=\"market-list-root\"]/div[2]/div[1]/div/div/div");
-        String xpath = "//span[contains(text(),'"+ company + "')]";
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
-
-        WaitForXpath(xpath);
-        WebElement companyDiv = driver.findElement(xpath(xpath));
+        String companyDivXpathTemplate = String.format("//p/span[contains(text(),'%s')]", company);
+        WebElement companyDiv = waitForPresenceOfElementLocated(driver, companyDivXpathTemplate);
         companyDiv.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-        WaitForId("order-button-open-form");
-        WebElement request = driver.findElement(By.id("order-button-open-form"));
-        request.click();
+        waitForElementToBeClickable(driver, requestButton);
+        requestButton.click();
 
-        WaitForXpath("//*[@id=\"root\"]/div/div[6]/div/div/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/div/input");
-        WebElement salesAmount = driver.findElement(xpath("//*[@id=\"root\"]/div/div[6]/div/div/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/div/input"));
-        salesAmount.click();
-        salesAmount.sendKeys(Keys.BACK_SPACE);
-        salesAmount.sendKeys(String.valueOf(n));
+        waitForElementToBeClickable(driver, salesAmountInput);
+        salesAmountInput.click();
+        salesAmountInput.sendKeys(Keys.BACK_SPACE);
+        salesAmountInput.sendKeys(String.valueOf(n));
 
-        WaitForId("order-form-submit");
-        WebElement orderButton = driver.findElement(By.id("order-form-submit"));
+        waitForElementToBeClickable(driver, orderButton);
         orderButton.click();
 
-        WaitForXpath("//*[@id=\"order-confirm-dialog\"]/div[2]/div/div[2]/table[1]/tbody/tr[5]/td[2]/p");
-        String price = driver.findElement(xpath("//*[@id=\"order-confirm-dialog\"]/div[2]/div/div[2]/table[1]/tbody/tr[5]/td[2]/p")).getText();
-
-        WaitForId("order-confirm-submit");
-        WebElement submit = driver.findElement(By.id("order-confirm-submit"));
-
-        submit.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        waitForElementToBeClickable(driver, submitButton);
+        submitButton.click();
 
         return this;
     }
 
-    public FinamPO closeSubmitWindows()
+    public FinamHomePO closeSubmitWindows()
     {
-        WaitForId("order-form-close");
-        WebElement closeButton = driver.findElement(By.id("order-form-close"));
-        closeButton.sendKeys(Keys.ESCAPE);
-        closeButton.click();
+        waitForVisibilityOfElement(driver, closeSubmitButton);
+        closeSubmitButton.sendKeys(Keys.ESCAPE);
+        closeSubmitButton.click();
 
         return this;
     }
 
     public boolean isNewSalesExists(String company)
     {
-        WaitForXpath("//*[@id=\"content-root\"]/div[2]/div[2]/div/div/div[1]/div/div[1]/div[1]/div");
-        String xpath = "//*[@id=\"content-root\"]/div[2]/div[2]/div/div/div[1]/div/div[1]/div[1]/div/div[@data-row-id = '" + company + "']";
-        try
-        {
-            WebElement companySales = driver.findElement(By.xpath(xpath));
-        }
-        catch (Exception NoSuchElementException)
-        {
+        String companyCellXpathTemplate = String.format("//div[@role='gridcell']/p[contains(text(), '%s')]", company);
+        if(driver.findElements(By.xpath(companyCellXpathTemplate)).size() == 0)
             return false;
-        }
+
         return true;
     }
 
 
 
-    public FinamPO(WebDriver driver)
-    {
-        this.driver = driver;
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        wait = new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(WAIT_TIMEOUT_SECONDS))
-                .ignoring(NoSuchElementException.class);
-    }
+
 }
