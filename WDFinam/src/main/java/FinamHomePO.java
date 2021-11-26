@@ -11,9 +11,8 @@ import java.util.function.Function;
 
 import static org.openqa.selenium.By.xpath;
 
-public class FinamPO {
+public class FinamPO extends BasePO {
     private final String HOME_PAGE = "https://trading.finam.ru/";
-    protected final int WAIT_TIMEOUT_SECONDS = 15;
     protected WebDriver driver;
     private Wait<WebDriver> wait;
 
@@ -25,38 +24,7 @@ public class FinamPO {
         return this;
     }
 
-    public FinamPO loginToFinam(String login, String password)
-    {
-        WaitForXpath("//*[@id=\"login-dialog-EDOX_STOP_LIST\"]/div[3]/a");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(6));
-        WebElement otherLoginMethods = driver.findElement(xpath("//*[@id=\"login-dialog-EDOX_STOP_LIST\"]/div[3]/a"));
-        otherLoginMethods.click();
 
-        WaitForId("login-account-type-UNION_DEMO");
-
-        WebElement demoAccSetting = driver.findElement(xpath("//*[@id='login-account-type-UNION_DEMO']"));
-        demoAccSetting.click();
-
-        WaitForId("txauth-widget-login");
-
-        WebElement loginField = driver.findElement(By.id("txauth-widget-login"));
-        loginField.click();
-        loginField.sendKeys(login);
-
-        WaitForId("txauth-widget-password");
-
-        WebElement passwordField = driver.findElement(By.id("txauth-widget-password"));
-        passwordField.click();
-        passwordField.sendKeys(password);
-
-        WaitForXpath("//*[@id=\"txauth-widget-login-form\"]/button[1]");
-
-        WebElement loginButton = driver.findElement(xpath("//*[@id=\"txauth-widget-login-form\"]/button[1]"));
-        loginButton.click();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-
-        return this;
-    }
 
     public FinamPO buyCompanyNSales(String company, int n){
         WaitForId("markets-tab-button");
@@ -131,25 +99,7 @@ public class FinamPO {
         return true;
     }
 
-    private void WaitForXpath(String xpath)
-    {
-        wait.until(new Function<WebDriver, Object>() {
-            public WebElement apply(WebDriver driver)
-            {
-                return driver.findElement(xpath(xpath));
-            }
-        });
-    }
 
-    private void WaitForId(String id)
-    {
-        wait.until(new Function<WebDriver, Object>() {
-            public WebElement apply(WebDriver driver)
-            {
-                return driver.findElement(By.id(id));
-            }
-        });
-    }
 
     public FinamPO(WebDriver driver)
     {
