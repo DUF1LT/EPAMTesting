@@ -1,11 +1,11 @@
-import org.openqa.selenium.PageLoadStrategy;
+import driver.DriverSingleton;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import page.FinamHomePO;
+import page.FinamLoginPO;
 
 public class FinamTest {
 
@@ -16,10 +16,7 @@ public class FinamTest {
     @BeforeTest(alwaysRun = true)
     public void StartupAndLoginTest()
     {
-        ChromeOptions options = new ChromeOptions();
-        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
+        driver = DriverSingleton.getDriver();
         finamLoginPO = new FinamLoginPO(driver);
         finamLoginPO.openPage();
         finamHomePO = finamLoginPO.loginToFinam("2892", "5299373753");
@@ -36,7 +33,6 @@ public class FinamTest {
     @AfterTest(alwaysRun = true)
     public void CloseWebDriver()
     {
-        driver.close();
-        driver = null;
+        DriverSingleton.closeDriver();
     }
 }
