@@ -1,5 +1,6 @@
 package page;
 
+import model.Stock;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -36,7 +37,7 @@ public class FinamHomePO extends BasePO {
         super(driver);
     }
 
-    public FinamHomePO buyCompanyNSales(String company, int n){
+    public FinamHomePO buyStocks(Stock stock){
 
         waitForElementToBeClickable(driver, marketsElement);
         marketsElement.click();
@@ -47,7 +48,7 @@ public class FinamHomePO extends BasePO {
         waitForElementToBeClickable(driver, salesAndFondGroup);
         salesAndFondGroup.click();
 
-        String companyDivXpathTemplate = String.format("//p/span[contains(text(),'%s')]", company);
+        String companyDivXpathTemplate = String.format("//p/span[contains(text(),'%s')]", stock.getCompany());
         WebElement companyDiv = waitForPresenceOfElementLocated(driver, companyDivXpathTemplate);
         companyDiv.click();
 
@@ -57,14 +58,14 @@ public class FinamHomePO extends BasePO {
         waitForElementToBeClickable(driver, salesAmountInput);
         salesAmountInput.click();
         salesAmountInput.sendKeys(Keys.BACK_SPACE);
-        salesAmountInput.sendKeys(String.valueOf(n));
+        salesAmountInput.sendKeys(String.valueOf(stock.getAmount()));
 
         waitForElementToBeClickable(driver, orderButton);
         orderButton.click();
 
         waitForElementToBeClickable(driver, submitButton);
         submitButton.click();
-
+        logger.info("Bought stocks " + stock.getCompany() + "(" + stock.getAmount() + ")");
         return this;
     }
 
@@ -74,15 +75,18 @@ public class FinamHomePO extends BasePO {
         closeSubmitButton.sendKeys(Keys.ESCAPE);
         closeSubmitButton.click();
 
+        logger.info("Submit window closed");
         return this;
     }
 
-    public boolean isNewSalesExists(String company)
+    public boolean isNewStocksExist(String company)
     {
         String companyCellXpathTemplate = String.format("//div[@role='gridcell']/p[contains(text(), '%s')]", company);
-        if(driver.findElements(By.xpath(companyCellXpathTemplate)).size() == 0)
+        if(driver.findElements(By.xpath(companyCellXpathTemplate)).size() == 0) {
+            logger.error("Bought stocks wasn't found");
             return false;
-
+        }
+        logger.info("Bought stocks was found");
         return true;
     }
 }

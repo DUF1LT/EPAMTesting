@@ -1,12 +1,15 @@
 package page;
 
+import model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class FinamLoginPO extends BasePO{
 
-    private final String HOME_PAGE = "https://trading.finam.ru/";
+    private final String BASE_URL = "https://trading.finam.ru/";
 
     @FindBy(xpath = "//*[@id='login-dialog-EDOX_STOP_LIST']/div[3]/a")
     private WebElement otherLoginMethodsLabel;
@@ -29,11 +32,12 @@ public class FinamLoginPO extends BasePO{
 
     public FinamLoginPO openPage()
     {
-        driver.get(HOME_PAGE);
+        driver.get(BASE_URL);
+        logger.info("Open " + BASE_URL);
         return this;
     }
 
-    public FinamHomePO loginToFinam(String login, String password)
+    public FinamHomePO loginToFinam(User user)
     {
         waitForElementToBeClickable(driver, otherLoginMethodsLabel);
         otherLoginMethodsLabel.click();
@@ -43,15 +47,16 @@ public class FinamLoginPO extends BasePO{
 
         waitForElementToBeClickable(driver, loginField);
         loginField.click();
-        loginField.sendKeys(login);
+        loginField.sendKeys(user.getUsername());
 
         waitForElementToBeClickable(driver, passwordField);
         passwordField.click();
-        passwordField.sendKeys(password);
+        passwordField.sendKeys(user.getPassword());
 
         waitForElementToBeClickable(driver, loginButton);
         loginButton.click();
 
+        logger.info("Logged as " + user.getUsername() + "/" + user.getPassword());
         return new FinamHomePO(driver);
     }
 }

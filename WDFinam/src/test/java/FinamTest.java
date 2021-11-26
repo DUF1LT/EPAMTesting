@@ -1,12 +1,18 @@
 import driver.DriverSingleton;
+import model.Stock;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import page.FinamHomePO;
 import page.FinamLoginPO;
+import service.StockCreator;
+import service.UserCreator;
+import utils.TestListener;
 
+@Listeners({TestListener.class})
 public class FinamTest {
 
     private WebDriver driver;
@@ -19,15 +25,16 @@ public class FinamTest {
         driver = DriverSingleton.getDriver();
         finamLoginPO = new FinamLoginPO(driver);
         finamLoginPO.openPage();
-        finamHomePO = finamLoginPO.loginToFinam("2892", "5299373753");
+        finamHomePO = finamLoginPO.loginToFinam(UserCreator.withCredentialsFromProperty());
     }
 
-    @Test
+    @Test(description = "Buy company stock of specific amount")
     public void BoughtStockAddToBriefcaseTest()
     {
-        finamHomePO.buyCompanyNSales("GMKN", 2);
+        Stock stock = StockCreator.withCredentialsFromProperty();
+        finamHomePO.buyStocks(stock);
         finamHomePO.closeSubmitWindows();
-        Assert.assertTrue(finamHomePO.isNewSalesExists("GMKN"));
+        Assert.assertTrue(finamHomePO.isNewStocksExist(stock.getCompany()));
     }
 
     @AfterTest(alwaysRun = true)
