@@ -1,7 +1,6 @@
 package utils;
 
 import driver.DriverSingleton;
-import jdk.javadoc.internal.doclets.toolkit.util.DocFinder;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,43 +18,36 @@ import java.time.format.DateTimeFormatter;
 public class TestListener implements ITestListener {
     private Logger log = LogManager.getRootLogger();
 
-    public void onTestStart(ITestResult result) {
+    public void onTestStart(ITestResult result) { }
 
+    public void onTestSuccess(ITestResult result)
+    {
+        log.info("Test " + result.getTestName() + " succeed");
+        saveScreenshot("SUCCESS", result.getTestName());
     }
 
-    public void onTestSuccess(ITestResult result) {
-        saveScreenshot("SUCCESS");
-
+    public void onTestFailure(ITestResult result)
+    {
+        log.info("Test " + result.getTestName() + " failed");
+        saveScreenshot("FAILED", result.getTestName());
     }
 
-    public void onTestFailure(ITestResult result) {
-        saveScreenshot("FAILED");
-    }
+    public void onTestSkipped(ITestResult result) { }
 
-    public void onTestSkipped(ITestResult result) {
+    public void onTestFailedButWithinSuccessPercentage(ITestResult result) { }
 
-    }
+    public void onStart(ITestContext context) { }
 
-    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+    public void onFinish(ITestContext context) { }
 
-    }
-
-    public void onStart(ITestContext context) {
-
-    }
-
-    public void onFinish(ITestContext context) {
-
-    }
-
-    private void saveScreenshot(String status)
+    private void saveScreenshot(String status, String testName)
     {
         File screenCapture = ((TakesScreenshot) DriverSingleton
                 .getDriver())
                 .getScreenshotAs(OutputType.FILE);
         try
         {
-            FileUtils.copyFile(screenCapture, new File(".//target/screenshots/" + status + "_" + getCurrentTimeAsString() + ".png"));
+            FileUtils.copyFile(screenCapture, new File(".//target/screenshots/" + status + "_" + testName + "_" + getCurrentTimeAsString() + ".png"));
         }
         catch(IOException exception)
         {
