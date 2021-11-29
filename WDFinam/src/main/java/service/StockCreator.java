@@ -10,8 +10,4 @@ public class StockCreator {
     {
         return new Stock(TestDataReader.getTestData(COMPANY_NAME), Integer.parseInt(TestDataReader.getTestData(STOCK_AMOUNT)));
     }
-
-    public static Stock withEmptyCompanyName(){ return new Stock("",Integer.parseInt(TestDataReader.getTestData(STOCK_AMOUNT))); }
-    public static Stock withEmptyAmount(){ return new Stock(TestDataReader.getTestData(COMPANY_NAME), 0);}
-
 }

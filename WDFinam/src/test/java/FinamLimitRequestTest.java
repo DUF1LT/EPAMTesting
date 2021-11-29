@@ -3,7 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import service.StockCreator;
 
-public class FinamMarketRequestTest extends BaseFinamTest
+public class FinamLimitRequestTest extends BaseFinamTest
 {
     @Test(description = "Buy by market company stock of specific amount")
     public void MarketBuyStockTest()

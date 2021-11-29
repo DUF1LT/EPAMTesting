@@ -1,10 +1,8 @@
 package page;
 
+import model.Alert;
 import model.ConditionalDeal;
 import model.Stock;
-import model.Condition;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,220 +15,60 @@ public class FinamHomePO extends BasePO {
     @FindBy(id = "alerts-tab-button")
     private WebElement alertsTab;
 
-    @FindBy(id = "market-group-dropdown")
-    private WebElement marketsGroupDropdown;
-
-    @FindBy(xpath = "//li[@value='E2']")
-    private WebElement salesAndFondGroup;
-
-    @FindBy(xpath = "//div[@id='portfolio-tabs']//button[@value='positions']")
-    private WebElement briefcasePanel;
-
-    @FindBy(xpath = "//div[@id='portfolio-tabs']//button[@value='orders']")
-    private WebElement requestPanel;
-
     @FindBy(id = "order-button-open-form")
     private WebElement requestButton;
 
     @FindBy(id = "alert-form-open-button")
     private WebElement alertButton;
 
-    @FindBy(xpath = "//div[@id='order-form-side']//button[@value='2']")
-    private WebElement sellOptionButton;
+    private FinamBriefcasePO briefcasePO;
 
-    @FindBy(name = "quantity")
-    private WebElement stocksAmountInput;
-
-    @FindBy(id = "order-form-submit")
-    private WebElement orderButton;
-
-    @FindBy(id = "order-confirm-submit")
-    private WebElement submitButton;
-
-    @FindBy(id = "order-form-close")
-    private WebElement closeSubmitButton;
-
-    @FindBy(xpath = "//button[@data-test='newOrder']")
-    private WebElement newOrderButton;
-
-    @FindBy(id = "order-type-market")
-    private WebElement marketPanel;
-
-    @FindBy(id = "order-type-cond")
-    private WebElement conditionalRequestPanel;
-
-    @FindBy(xpath = "//span[contains(text(), 'Условие')]/../..")
-    private WebElement conditionButton;
-
-    @FindBy(xpath = "//label[contains(text(),'Время активации')]/../div[2]//input")
-    private WebElement conditionTimeArgumentButton;
-
-    @FindBy(xpath = "//label[contains(text(),'Цена активации')]/..//input")
-    private WebElement conditionArgumentButton;
-
-    private final String companyStockElementXpathTemplate = "//p/span[contains(text(),'%s')]";
-    private final String stockBriefcaseCellXpathTemplate = "//div[@role='gridcell']/p[contains(text(), '%s')]";
-    private final String stockBriefcaseAmountXpathTemplate = "//div[@data-row-id='%s']//div[@data-test='quantity']//p";
-    private final String conditionXpathTemplate = "//div[@role='presentation']//li[@value='%s']";
-    private final String conditionTimeArgumentTemplate = "//div[@role='presentation']//li[contains(text(), '%s')]";
-    private final String stockRequestCell = "//p[@title='Условная']//..//preceding-sibling::div//p[contains(text(),'%s')]";
-
-    public FinamHomePO(WebDriver driver) {
+    public FinamHomePO(WebDriver driver)
+    {
         super(driver);
+        briefcasePO = new FinamBriefcasePO(driver);
     }
 
-    private void sendKeysToStockAmountInput(String input)
-    {
-        waitForElementToBeClickable(driver, stocksAmountInput);
-        stocksAmountInput.click();
-        stocksAmountInput.sendKeys(Keys.BACK_SPACE);
-        stocksAmountInput.sendKeys(String.valueOf(input));
-    }
-
-    private void switchToMarketPanel()
-    {
-        waitForElementToBeClickable(driver, marketPanel);
-        marketPanel.click();
-    }
-
-    private void switchToConditionalRequestPanel()
-    {
-        waitForElementToBeClickable(driver, conditionalRequestPanel);
-        conditionalRequestPanel.click();
-    }
-
-    private void switchToRequestSellOption()
-    {
-        waitForElementToBeClickable(driver, sellOptionButton);
-        sellOptionButton.click();
-    }
-
-    public FinamHomePO openMarkets()
+    private FinamMarketsTabPO openMarketsTab()
     {
         waitForElementToBeClickable(driver, marketsTab);
         marketsTab.click();
 
-        return this;
+        return new FinamMarketsTabPO(driver);
     }
 
-    public FinamHomePO openAlerts()
+    private FinamAlertTabPO openAlertsTab()
     {
         waitForElementToBeClickable(driver, alertsTab);
         alertsTab.click();
 
-        return this;
+        return new FinamAlertTabPO(driver);
     }
 
-    public void switchToStocksAndFondsPanel()
-    {
-        waitForElementToBeClickable(driver, marketsGroupDropdown);
-        marketsGroupDropdown.click();
-
-        waitForElementToBeClickable(driver, salesAndFondGroup);
-        salesAndFondGroup.click();
-        logger.info("Menu switched to Stocks and Fonds");
-
-    }
-
-    public FinamHomePO switchToRequestPanel()
-    {
-        waitForElementToBeClickable(driver, requestPanel);
-        requestPanel.click();
-
-        return this;
-    }
-
-    public FinamHomePO switchToBriefcasePanel()
-    {
-        waitForElementToBeClickable(driver, briefcasePanel);
-        briefcasePanel.click();
-
-        return this;
-    }
-
-    public void openRequestWindow()
+    private FinamRequestPO openRequest()
     {
         waitForElementToBeClickable(driver, requestButton);
         requestButton.click();
-
+        return new FinamRequestPO(driver);
     }
 
-    public void selectStock(Stock stock)
+    private FinamAlertPO openAlertWindow()
     {
-        WebElement companyDiv = waitForPresenceOfElementLocated(driver,
-                String.format(companyStockElementXpathTemplate, stock.getCompany()));
+        waitForElementToBeClickable(driver, alertButton);
+        alertButton.click();
 
-        companyDiv.click();
-
+        return new FinamAlertPO(driver);
     }
 
-    public void selectCondition(ConditionalDeal deal)
-    {
-        waitForElementToBeClickable(driver, conditionButton);
-        conditionButton.click();
-
-        WebElement conditionalElement;
-
-        switch(deal.getCondition())
-        {
-            case UpperOrEquals:
-                conditionalElement = waitForPresenceOfElementLocated(driver,
-                        String.format(conditionXpathTemplate, "8"));
-                break;
-            case LowerOrEquals:
-                conditionalElement = waitForPresenceOfElementLocated(driver,
-                        String.format(conditionXpathTemplate, "9"));
-                break;
-            default:
-                conditionalElement = waitForPresenceOfElementLocated(driver,
-                        String.format(conditionXpathTemplate, "5"));
-        }
-
-        conditionalElement.click();
-
-        if(deal.getCondition() == Condition.CompletionTime)
-        {
-            waitForElementToBeClickable(driver, conditionTimeArgumentButton);
-            conditionTimeArgumentButton.click();
-
-            WebElement timeElement = waitForPresenceOfElementLocated(driver,
-                    String.format(conditionTimeArgumentTemplate, deal.getConditionArgument()));
-
-            timeElement.click();
-        }
-        else
-        {
-            waitForElementToBeClickable(driver, conditionArgumentButton);
-            conditionArgumentButton.click();
-            conditionalElement.sendKeys(Keys.CONTROL, Keys.BACK_SPACE);
-            conditionalElement.sendKeys(deal.getConditionArgument());
-        }
-
-
-    }
-
-    public int getStockCurrentAmount(Stock stock)
-    {
-        switchToBriefcasePanel();
-        if(driver.findElements(By.xpath(String.format(stockBriefcaseAmountXpathTemplate, stock.getCompany()))).size() == 0)
-            return 0;
-        else
-        {
-            WebElement stockAmountLabel = driver.findElement(By.xpath(
-                    String.format(stockBriefcaseAmountXpathTemplate,stock.getCompany())));
-
-            waitForVisibilityOfElement(driver, stockAmountLabel);
-
-            return Integer.parseInt(stockAmountLabel.getText());
-        }
-    }
+    public FinamBriefcasePO getBriefcasePO() { return briefcasePO; }
 
     public FinamHomePO buyStock(Stock stock)
     {
-        selectStock(stock);
-        openRequestWindow();
-        switchToMarketPanel();
-        sendKeysToStockAmountInput(String.valueOf(stock.getAmount()));
+        openMarketsTab().selectStock(stock).closeMarketsTab();
+
+        openRequest().switchToMarketPanel()
+                           .sendKeysToStockAmountInput(String.valueOf(stock.getAmount()))
+                           .submitRequest();
 
         logger.info("Bought stocks " + stock.getCompany() + "(" + stock.getAmount() + ")");
 
@@ -239,11 +77,12 @@ public class FinamHomePO extends BasePO {
 
     public FinamHomePO sellStock(Stock stock)
     {
-        selectStock(stock);
-        openRequestWindow();
-        switchToMarketPanel();
-        switchToRequestSellOption();
-        sendKeysToStockAmountInput(String.valueOf(stock.getAmount()));
+        openMarketsTab().selectStock(stock).closeMarketsTab();
+
+        openRequest().switchToMarketPanel()
+                           .switchToRequestSellOption()
+                           .sendKeysToStockAmountInput(String.valueOf(stock.getAmount()))
+                           .submitRequest();
 
         logger.info("Sold stocks " + stock.getCompany() + "(" + stock.getAmount() + ")");
 
@@ -252,11 +91,12 @@ public class FinamHomePO extends BasePO {
 
     public FinamHomePO conditionalBuyStock(Stock stock, ConditionalDeal deal)
     {
-        selectStock(stock);
-        openRequestWindow();
-        switchToConditionalRequestPanel();
-        selectCondition(deal);
-        sendKeysToStockAmountInput(String.valueOf(stock.getAmount()));
+        openMarketsTab().selectStock(stock).closeMarketsTab();
+
+        openRequest().switchToConditionalRequestPanel()
+                           .selectRequestCondition(deal)
+                           .sendKeysToStockAmountInput(String.valueOf(stock.getAmount()))
+                           .submitRequest();
 
         logger.info("Conditional request for buy created");
 
@@ -265,55 +105,36 @@ public class FinamHomePO extends BasePO {
 
     public FinamHomePO conditionalSellStock(Stock stock, ConditionalDeal deal)
     {
-        selectStock(stock);
-        openRequestWindow();
-        switchToRequestSellOption();
-        switchToConditionalRequestPanel();
-        selectCondition(deal);
-        sendKeysToStockAmountInput(String.valueOf(stock.getAmount()));
+        openMarketsTab().selectStock(stock).closeMarketsTab();
+
+        openRequest().switchToRequestSellOption()
+                 .switchToConditionalRequestPanel()
+                 .selectRequestCondition(deal)
+                 .sendKeysToStockAmountInput(String.valueOf(stock.getAmount()))
+                 .submitRequest();
 
         logger.info("Conditional request for sell created");
 
         return this;
     }
-    
-    public FinamHomePO submitRequest()
+
+    public FinamHomePO createAlert(Stock stock, Alert alert)
     {
-        waitForElementToBeClickable(driver, orderButton);
-        orderButton.click();
+        openMarketsTab().selectStock(stock).closeMarketsTab();
 
-        waitForElementToBeClickable(driver, submitButton);
-        submitButton.click();
-
-        waitForVisibilityOfElement(driver, newOrderButton);
-        newOrderButton.click();
-
-        closeSubmitButton.click();
-
-        logger.info("Request submitted");
+        openAlertWindow().selectAlertCondition(alert)
+                         .sendKeysToAlertArgument(alert.getAlertArgument())
+                         .submitAlert();
 
         return this;
     }
 
-    public boolean isStockExist(Stock stock)
+    public boolean isAlertExist(Stock stock)
     {
-        if(driver.findElements(By.xpath(String.format(stockBriefcaseCellXpathTemplate, stock.getCompany()))).size() == 0) {
-            logger.error("Stocks wasn't found");
-            return false;
-        }
-        logger.info("Stocks was found");
+       FinamAlertTabPO alertTabPO = openAlertsTab();
+       boolean isExists = alertTabPO.isAlertExists(stock);
+       alertTabPO.closeAlertTab();
 
-        return true;
-    }
-
-    public boolean isRequestExist(Stock stock)
-    {
-        if(driver.findElements(By.xpath(String.format(stockRequestCell, stock.getCompany()))).size() == 0) {
-            logger.error("Request wasn't found");
-            return false;
-        }
-        logger.info("Request was found");
-
-        return true;
+       return isExists;
     }
 }

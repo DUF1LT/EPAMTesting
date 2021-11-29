@@ -5,7 +5,8 @@ import org.testng.annotations.Test;
 import service.ConditionalDealCreator;
 import service.StockCreator;
 
-public class FinamConditionalRequestTest extends BaseFinamTest{
+public class FinamConditionalRequestTest extends BaseFinamTest
+{
 
     @Test(description = "Buy by condition company stock of specific amount")
     public void ConditionalBuyStockTest()
@@ -15,8 +16,7 @@ public class FinamConditionalRequestTest extends BaseFinamTest{
 
         Assert.assertTrue(finamHomePO
                 .conditionalBuyStock(stock, deal)
-                .submitRequest()
-                .switchToRequestPanel()
+                .getBriefcasePO()
                 .isRequestExist(stock));
     }
 
@@ -28,8 +28,7 @@ public class FinamConditionalRequestTest extends BaseFinamTest{
 
         Assert.assertTrue(finamHomePO
                 .conditionalSellStock(stock, deal)
-                .submitRequest()
-                .switchToRequestPanel()
+                .getBriefcasePO()
                 .isRequestExist(stock));
     }
 

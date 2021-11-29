@@ -4,17 +4,17 @@ import java.util.Objects;
 
 public class ConditionalDeal {
 
-    private Condition condition;
+    private DealCondition condition;
     private String conditionArgument;
 
-    public ConditionalDeal(Condition condition, String conditionArgument)
+    public ConditionalDeal(DealCondition condition, String conditionArgument)
     {
         this.condition = condition;
         this.conditionArgument = conditionArgument;
     }
 
-    public Condition getCondition() { return condition; }
-    public void setCondition(Condition condition) { this.condition = condition; }
+    public DealCondition getCondition() { return condition; }
+    public void setCondition(DealCondition condition) { this.condition = condition; }
 
     public String getConditionArgument() { return conditionArgument; }
     public void setConditionArgument(String conditionArgument) { this.conditionArgument = conditionArgument; }

@@ -1,6 +1,6 @@
 package model;
 
-public enum Condition {
+public enum DealCondition {
     CompletionTime,
     UpperOrEquals,
     LowerOrEquals

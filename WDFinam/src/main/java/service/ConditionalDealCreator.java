@@ -1,8 +1,7 @@
 package service;
 
-import model.Condition;
+import model.DealCondition;
 import model.ConditionalDeal;
-import model.Stock;
 
 public class ConditionalDealCreator {
     public static final String DEAL_CONDITION = "testdata.conditionaldeal.condition";
@@ -10,13 +9,7 @@ public class ConditionalDealCreator {
 
     public static ConditionalDeal withCredentialsFromProperty()
     {
-        return new ConditionalDeal(Condition.valueOf(Condition.class, TestDataReader.getTestData(DEAL_CONDITION)),
+        return new ConditionalDeal(DealCondition.valueOf(DealCondition.class, TestDataReader.getTestData(DEAL_CONDITION)),
                 TestDataReader.getTestData(CONDITION_ARGUMENT));
     }
-
-    public static ConditionalDeal withEmptyCompanyName(){ return new ConditionalDeal(Condition.CompletionTime,
-            TestDataReader.getTestData(CONDITION_ARGUMENT)); }
-    public static ConditionalDeal withEmptyAmount(){ return new ConditionalDeal(Condition.valueOf(Condition.class, TestDataReader.getTestData(DEAL_CONDITION)),
-            "");}
-
 }

@@ -17,7 +17,6 @@ public class Runner {
         System.out.println(finamLoginPO
                     .openPage()
                     .loginToFinam(finamUser)
-                    .buyStock(stock)
-                    .submitRequest());
+                    .buyStock(stock));
     }
 }

@@ -20,8 +20,6 @@ public abstract class BaseFinamTest {
         finamLoginPO = new FinamLoginPO(driver);
         finamLoginPO.openPage();
         finamHomePO = finamLoginPO.loginToFinam(UserCreator.withCredentialsFromProperty());
-        finamHomePO.openMarkets()
-                .switchToStocksAndFondsPanel();
     }
 
     @AfterClass(alwaysRun = true)
