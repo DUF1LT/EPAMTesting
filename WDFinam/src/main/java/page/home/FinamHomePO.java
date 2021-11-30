@@ -1,11 +1,15 @@
-package page;
+package page.home;
 
-import model.Alert;
-import model.ConditionalDeal;
-import model.Stock;
+import model.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import page.BasePO;
+import page.alert.FinamAlertPO;
+import page.alert.FinamAlertTabPO;
+import page.breifcase.FinamBriefcasePO;
+import page.market.FinamMarketsTabPO;
+import page.request.FinamRequestPO;
 
 public class FinamHomePO extends BasePO {
 
@@ -62,7 +66,7 @@ public class FinamHomePO extends BasePO {
 
     public FinamBriefcasePO getBriefcasePO() { return briefcasePO; }
 
-    public FinamHomePO buyStock(Stock stock)
+    public FinamHomePO marketBuyStock(Stock stock)
     {
         openMarketsTab().selectStock(stock).closeMarketsTab();
 
@@ -75,7 +79,7 @@ public class FinamHomePO extends BasePO {
         return this;
     }
 
-    public FinamHomePO sellStock(Stock stock)
+    public FinamHomePO marketSellStock(Stock stock)
     {
         openMarketsTab().selectStock(stock).closeMarketsTab();
 
@@ -128,6 +132,57 @@ public class FinamHomePO extends BasePO {
 
         return this;
     }
+
+    public FinamHomePO limitBuyStock(Limit limit)
+    {
+        openMarketsTab().selectStock(limit.getStock()).closeMarketsTab();
+
+        openRequest().switchToLimitPanel()
+                     .sendKeysToStockAmountInput(String.valueOf(limit.getStock().getAmount()))
+                     .sendKeysToLimitPriceInput(String.valueOf(limit.getPrice()))
+                     .submitRequest();
+
+        return this;
+    }
+
+    public FinamHomePO limitSellStock(Limit limit)
+    {
+        openMarketsTab().selectStock(limit.getStock()).closeMarketsTab();
+
+        openRequest().switchToRequestSellOption()
+                     .switchToLimitPanel()
+                     .sendKeysToStockAmountInput(String.valueOf(limit.getStock().getAmount()))
+                     .sendKeysToLimitPriceInput(String.valueOf(limit.getPrice()))
+                     .submitRequest();
+
+        return this;
+    }
+
+    public FinamHomePO stopBuyStock(Stock stock, Stop stop)
+    {
+        openMarketsTab().selectStock(stock).closeMarketsTab();
+
+        openRequest().switchToStopPanel()
+                     .selectStopOptions(stop)
+                     .sendKeysToStopInputs(stop, stock)
+                     .submitRequest();
+
+        return this;
+    }
+
+    public FinamHomePO stopSellStock(Stock stock, Stop stop)
+    {
+        openMarketsTab().selectStock(stock).closeMarketsTab();
+
+        openRequest().switchToRequestSellOption()
+                .switchToStopPanel()
+                .selectStopOptions(stop)
+                .sendKeysToStopInputs(stop, stock)
+                .submitRequest();
+
+        return this;
+    }
+
 
     public boolean isAlertExist(Stock stock)
     {

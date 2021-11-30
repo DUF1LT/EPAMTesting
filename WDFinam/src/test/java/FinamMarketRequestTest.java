@@ -12,7 +12,7 @@ public class FinamMarketRequestTest extends BaseFinamTest
         int stockAmountBeforeBuy = finamHomePO.getBriefcasePO().getStockCurrentAmount(stock);
 
         Assert.assertEquals(finamHomePO
-                .buyStock(stock)
+                .marketBuyStock(stock)
                 .getBriefcasePO()
                 .getStockCurrentAmount(stock), stockAmountBeforeBuy + stock.getAmount());
     }
@@ -24,7 +24,7 @@ public class FinamMarketRequestTest extends BaseFinamTest
         int stockAmountBeforeSale = finamHomePO.getBriefcasePO().getStockCurrentAmount(stock);
 
         Assert.assertEquals(finamHomePO
-                .sellStock(stock)
+                .marketSellStock(stock)
                 .getBriefcasePO()
                 .getStockCurrentAmount(stock), stockAmountBeforeSale - stock.getAmount());
     }

@@ -1,12 +1,13 @@
-package page;
+package page.alert;
 
 import model.Alert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import page.BasePO;
 
-public class FinamAlertPO extends BasePO{
+public class FinamAlertPO extends BasePO {
 
     @FindBy(id = "alert-form-submit")
     private WebElement alertSubmitButton;

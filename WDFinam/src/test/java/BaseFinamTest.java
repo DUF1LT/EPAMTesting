@@ -1,8 +1,8 @@
 import driver.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
-import page.FinamHomePO;
-import page.FinamLoginPO;
+import page.home.FinamHomePO;
+import page.login.FinamLoginPO;
 import service.UserCreator;
 import utils.TestListener;
 

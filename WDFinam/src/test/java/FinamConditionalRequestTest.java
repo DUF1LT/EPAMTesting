@@ -17,7 +17,7 @@ public class FinamConditionalRequestTest extends BaseFinamTest
         Assert.assertTrue(finamHomePO
                 .conditionalBuyStock(stock, deal)
                 .getBriefcasePO()
-                .isRequestExist(stock));
+                .isConditionalRequestExist(stock));
     }
 
     @Test(description = "Sell by condition company stock of specific amount")
@@ -29,7 +29,7 @@ public class FinamConditionalRequestTest extends BaseFinamTest
         Assert.assertTrue(finamHomePO
                 .conditionalSellStock(stock, deal)
                 .getBriefcasePO()
-                .isRequestExist(stock));
+                .isConditionalRequestExist(stock));
     }
 
 }

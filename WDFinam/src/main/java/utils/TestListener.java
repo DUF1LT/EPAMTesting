@@ -23,13 +23,13 @@ public class TestListener implements ITestListener {
     public void onTestSuccess(ITestResult result)
     {
         log.info("Test " + result.getTestName() + " succeed");
-        saveScreenshot("SUCCESS", result.getTestName());
+        saveScreenshot("SUCCESS", result.getName());
     }
 
     public void onTestFailure(ITestResult result)
     {
-        log.info("Test " + result.getTestName() + " failed");
-        saveScreenshot("FAILED", result.getTestName());
+        log.info("Test " + result.getName() + " failed");
+        saveScreenshot("FAILED", result.getName());
     }
 
     public void onTestSkipped(ITestResult result) { }

@@ -2,7 +2,7 @@ import model.Stock;
 import model.User;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import page.FinamLoginPO;
+import page.login.FinamLoginPO;
 import service.StockCreator;
 import service.UserCreator;
 
@@ -17,6 +17,6 @@ public class Runner {
         System.out.println(finamLoginPO
                     .openPage()
                     .loginToFinam(finamUser)
-                    .buyStock(stock));
+                    .marketBuyStock(stock));
     }
 }

@@ -1,31 +1,29 @@
-import model.Stock;
+import model.Limit;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import service.StockCreator;
+import service.LimitCreator;
 
 public class FinamLimitRequestTest extends BaseFinamTest
 {
-    @Test(description = "Buy by market company stock of specific amount")
-    public void MarketBuyStockTest()
+    @Test(description = "Buy by limit company stock of specific amount with specific limit price\"")
+    public void LimitBuyStockTest()
     {
-        Stock stock = StockCreator.withCredentialsFromProperty();
-        int stockAmountBeforeBuy = finamHomePO.getBriefcasePO().getStockCurrentAmount(stock);
+        Limit limit = LimitCreator.withCredentialsFromProperty();
 
-        Assert.assertEquals(finamHomePO
-                .buyStock(stock)
+        Assert.assertTrue(finamHomePO
+                .limitBuyStock(limit)
                 .getBriefcasePO()
-                .getStockCurrentAmount(stock), stockAmountBeforeBuy + stock.getAmount());
+                .isLimitRequestExist(limit.getStock()));
     }
 
-    @Test(description = "Sell by market company stock of specific amount")
-    public void MarketSellStockTest()
+    @Test(description = "Sell by limit company stock of specific amount with specific limit price")
+    public void LimitSellStockTest()
     {
-        Stock stock = StockCreator.withCredentialsFromProperty();
-        int stockAmountBeforeSale = finamHomePO.getBriefcasePO().getStockCurrentAmount(stock);
+        Limit limit = LimitCreator.withCredentialsFromProperty();
 
-        Assert.assertEquals(finamHomePO
-                .sellStock(stock)
+        Assert.assertTrue(finamHomePO
+                .limitSellStock(limit)
                 .getBriefcasePO()
-                .getStockCurrentAmount(stock), stockAmountBeforeSale - stock.getAmount());
+                .isLimitRequestExist(limit.getStock()));
     }
 }

@@ -1,11 +1,13 @@
-package page;
+package page.login;
 
 import model.User;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import page.BasePO;
+import page.home.FinamHomePO;
 
-public class FinamLoginPO extends BasePO{
+public class FinamLoginPO extends BasePO {
 
     private final String BASE_URL = "https://trading.finam.ru/";
 

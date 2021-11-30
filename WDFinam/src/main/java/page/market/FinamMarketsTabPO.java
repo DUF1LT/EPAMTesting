@@ -1,11 +1,12 @@
-package page;
+package page.market;
 
 import model.Stock;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import page.BasePO;
 
-public class FinamMarketsTabPO extends BasePO{
+public class FinamMarketsTabPO extends BasePO {
 
     @FindBy(id = "markets-tab-button")
     private WebElement marketsTab;
