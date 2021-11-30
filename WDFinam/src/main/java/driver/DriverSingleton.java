@@ -23,7 +23,7 @@ public class DriverSingleton {
                     driver = new EdgeDriver();
                 }
                 default:{
-                    WebDriverManager.chromedriver().version("chrome96").setup();
+                    WebDriverManager.chromedriver().version("96.0.4664.45").setup();
                     ChromeOptions options = new ChromeOptions();
                     options.setPageLoadStrategy(PageLoadStrategy.EAGER);
                     driver = new ChromeDriver(options);
