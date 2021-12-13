@@ -1,7 +1,6 @@
 package driver;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -12,18 +11,18 @@ public class DriverSingleton {
 
     private DriverSingleton(){}
 
-    public static WebDriver getDriver()
-    {
-        if(driver == null)
-        {
-            switch (System.getProperty("browser"))
-            {
+    public static WebDriver getDriver() {
+        if(driver == null) {
+
+            String browserVersion = System.getProperty("browserVersion");
+
+            switch (System.getProperty("browser")) {
                 case "msedge":{
-                    WebDriverManager.edgedriver().setup();
+                    WebDriverManager.edgedriver().version(browserVersion).setup();
                     driver = new EdgeDriver();
                 }
                 default:{
-                    WebDriverManager.chromedriver().version("96.0.4664.45").setup();
+                    WebDriverManager.chromedriver().version(browserVersion).setup();
                     ChromeOptions options = new ChromeOptions();
                     options.setPageLoadStrategy(PageLoadStrategy.EAGER);
                     driver = new ChromeDriver(options);
@@ -34,8 +33,7 @@ public class DriverSingleton {
         return driver;
     }
 
-    public static void closeDriver()
-    {
+    public static void closeDriver() {
         driver.quit();
         driver = null;
     }

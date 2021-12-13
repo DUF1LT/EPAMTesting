@@ -20,15 +20,13 @@ public class TestListener implements ITestListener {
 
     public void onTestStart(ITestResult result) { }
 
-    public void onTestSuccess(ITestResult result)
-    {
-        log.info("Test " + result.getTestName() + " succeed");
+    public void onTestSuccess(ITestResult result) {
+        log.info("Test " + result.getName() + " succeed");
         saveScreenshot("SUCCESS", result.getName());
     }
 
-    public void onTestFailure(ITestResult result)
-    {
-        log.info("Test " + result.getName() + " failed");
+    public void onTestFailure(ITestResult result) {
+        log.error("Test " + result.getName() + " failed");
         saveScreenshot("FAILED", result.getName());
     }
 
@@ -40,17 +38,14 @@ public class TestListener implements ITestListener {
 
     public void onFinish(ITestContext context) { }
 
-    private void saveScreenshot(String status, String testName)
-    {
+    private void saveScreenshot(String status, String testName) {
         File screenCapture = ((TakesScreenshot) DriverSingleton
                 .getDriver())
                 .getScreenshotAs(OutputType.FILE);
-        try
-        {
+        try {
             FileUtils.copyFile(screenCapture, new File(".//target/screenshots/" + status + "_" + testName + "_" + getCurrentTimeAsString() + ".png"));
         }
-        catch(IOException exception)
-        {
+        catch(IOException exception) {
             log.error("Failed to save screenshot: " + exception.getLocalizedMessage());
         }
     }
