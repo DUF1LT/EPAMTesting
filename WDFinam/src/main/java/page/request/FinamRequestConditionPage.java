@@ -27,18 +27,7 @@ public class FinamRequestConditionPage extends FinamRequestPage {
 
     public FinamRequestConditionPage selectRequestCondition(ConditionalRequest deal) {
         waitForElementToBeClickable(conditionButton).click();;
-        WebElement conditionalElement;
-
-        switch(deal.getCondition()) {
-            case UpperOrEquals:
-                conditionalElement = waitForPresenceOfElementLocated(String.format(CONDITION_TEMPLATE, "8"));
-                break;
-            case LowerOrEquals:
-                conditionalElement = waitForPresenceOfElementLocated(String.format(CONDITION_TEMPLATE, "9"));
-                break;
-            default:
-                conditionalElement = waitForPresenceOfElementLocated(String.format(CONDITION_TEMPLATE, "5"));
-        }
+        WebElement conditionalElement = switchCondition(deal.getCondition());
         conditionalElement.click();
 
         if(deal.getCondition() == Condition.CompletionTime) {
@@ -51,7 +40,19 @@ public class FinamRequestConditionPage extends FinamRequestPage {
             conditionalElement.sendKeys(deal.getConditionArgument());
         }
         logger.info("Condition switched to " + deal.getCondition() + " with " + deal.getConditionArgument() + " arguments");
+
         return this;
+    }
+
+    private WebElement switchCondition(Condition condition){
+        switch(condition) {
+            case UpperOrEquals:
+                return waitForPresenceOfElementLocated(String.format(CONDITION_TEMPLATE, "8"));
+            case LowerOrEquals:
+                return waitForPresenceOfElementLocated(String.format(CONDITION_TEMPLATE, "9"));
+            default:
+                return waitForPresenceOfElementLocated(String.format(CONDITION_TEMPLATE, "5"));
+        }
     }
 
 

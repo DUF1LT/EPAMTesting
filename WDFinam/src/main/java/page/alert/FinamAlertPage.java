@@ -1,6 +1,8 @@
 package page.alert;
 
 import model.alert.Alert;
+import model.alert.AlertArgumentOption;
+import model.alert.Condition;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,43 +31,11 @@ public class FinamAlertPage extends BasePage {
 
     public FinamAlertPage selectAlertCondition(Alert alert) {
         waitForElementToBeClickable(alertConditionButton).click();
-
-        WebElement alertCondition;
-        switch(alert.getAlertCondition()) {
-            case PriceCross:
-                alertCondition = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "cross"));
-                break;
-            case PriceBelowLevel:
-                alertCondition = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "cross_down"));
-                break;
-            case PriceAboveLevel:
-                alertCondition = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "cross_up"));
-                break;
-            case PriceDecreaseTo:
-                alertCondition = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "touch_down"));
-                break;
-            case PriceIncreaseTo:
-                alertCondition = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "touch_up"));
-                break;
-            default:
-                alertCondition = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "touch"));
-        }
-        alertCondition.click();
+        switchAlertCondition(alert.getAlertCondition()).click();
 
         waitForElementToBeClickable(alertArgumentOptionButton).click();
-
-        WebElement alertArgumentOption;
-        switch(alert.getAlertArgumentOption()) {
-            case PriceUnit:
-                alertArgumentOption = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "2"));
-                break;
-            case PricePercent:
-                alertArgumentOption = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "1"));
-                break;
-            default:
-                alertArgumentOption = waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "0"));
-        }
-        alertArgumentOption.click();
+        switchAlertArgumentOption(alert.getAlertArgumentOption()).click();
+        logger.info("Alert conditions switched");
 
         return this;
     }
@@ -85,5 +55,33 @@ public class FinamAlertPage extends BasePage {
         logger.info("Submit alert");
 
         return this;
+    }
+
+    private WebElement switchAlertCondition(Condition alertCondition){
+        switch(alertCondition) {
+            case PriceCross:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "cross"));
+            case PriceBelowLevel:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "cross_down"));
+            case PriceAboveLevel:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "cross_up"));
+            case PriceDecreaseTo:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "touch_down"));
+            case PriceIncreaseTo:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "touch_up"));
+            default:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "touch"));
+        }
+    }
+
+    private WebElement switchAlertArgumentOption(AlertArgumentOption argumentOption){
+        switch(argumentOption) {
+            case PriceUnit:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "2"));
+            case PricePercent:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "1"));
+            default:
+                return waitForPresenceOfElementLocated(String.format(ALERT_CONDITION_TEMPLATE, "0"));
+        }
     }
 }

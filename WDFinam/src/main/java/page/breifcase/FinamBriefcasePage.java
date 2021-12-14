@@ -14,7 +14,6 @@ import java.time.Duration;
 
 public class FinamBriefcasePage extends BasePage {
     private final String STOCK_BRIEFCASE_AMOUNT_TEMPLATE = "//div[@data-row-id='%s']//div[@data-test='trendBadge']//p";
-
     private final String REQUEST_COMPANY_TEMPLATE = "//div[@role='row']//div[1]//p[contains(text(),'%s')]";
     private final String REQUEST_TYPE_TEMPLATE = "//ancestor::div[@role='row']//div[4]//p[contains(text(),'%s')]";
     private final String REQUEST_PRICE_TEMPLATE = "//ancestor::div[@role='row']//p[contains(text(),'%s')]";
